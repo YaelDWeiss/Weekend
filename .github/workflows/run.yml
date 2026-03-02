@@ -2,7 +2,7 @@ name: run-every-15min
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # every 15 min (UTC)
+    - cron: "*/10 * * * *"   # every 15 min (UTC)
   workflow_dispatch:
 
 concurrency:
