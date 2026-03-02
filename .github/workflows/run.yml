@@ -1,0 +1,43 @@
+name: run-every-15min
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 min (UTC)
+  workflow_dispatch:
+
+concurrency:
+  group: run-every-15min
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run bot
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          TARGET_URL: ${{ secrets.TARGET_URL }}
+          TESSERACT_CMD: /usr/bin/tesseract
+        run: |
+          python run.py
