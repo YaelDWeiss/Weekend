@@ -17,15 +17,15 @@ def run():
     import re
 
     def safe_url_info(u):
-    if u is None:
-        return "None"
-    has_newline = ("\n" in u) or ("\r" in u)
-    return (
-        f"len={len(u)} "
-        f"startswith_http={u.startswith('http')} "
-        f"has_space={' ' in u} "
-        f"has_newline={has_newline}"
-    )
+        if u is None:
+            return "None"
+        has_newline = ("\n" in u) or ("\r" in u)
+        return (
+            f"len={len(u)} "
+            f"startswith_http={u.startswith('http')} "
+            f"has_space={' ' in u} "
+            f"has_newline={has_newline}"
+        )
 
     target_url = os.getenv("TARGET_URL")
     print("TARGET_URL info:", safe_url_info(target_url))
