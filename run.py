@@ -1,5 +1,8 @@
 from playwright.sync_api import sync_playwright, TimeoutError
 from ocr import read_invoice_5digits
+import os
+from dotenv import load_dotenv, find_dotenv
+
 
 def in_run_window() -> bool:
     # Option simple: exécuter tout le temps (tu peux ajouter une fenêtre horaire plus tard)
@@ -10,15 +13,15 @@ def run():
         print("Outside run window, exit.")
         return
 
-        target_url = os.getenv("TARGET_URL")
-        if not target_url:
-            raise RuntimeError("Missing TARGET_URL (set it in GitHub Secrets)")
+    target_url = os.getenv("TARGET_URL")
+    if not target_url:
+        raise RuntimeError("Missing TARGET_URL (set it in GitHub Secrets)")
 
-        
-        username = os.getenv("USERNAME")
-        password = os.getenv("PASSWORD")
-        if not username or not password:
-            raise RuntimeError("Missing USERNAME/PASSWORD env vars")
+    
+    username = os.getenv("USERNAME")
+    password = os.getenv("PASSWORD")
+    if not username or not password:
+        raise RuntimeError("Missing USERNAME/PASSWORD env vars")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)

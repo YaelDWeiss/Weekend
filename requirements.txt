@@ -2,5 +2,4 @@ playwright
 python-dotenv
 pytesseract
 opencv-python-headless
-easyocr
 numpy
