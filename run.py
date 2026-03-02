@@ -104,7 +104,6 @@ def run():
         # 7) Maintenant clique sur עדכן
         update_btn.click()
 
-        input("Enter pour fermer...")
         context.close()
         browser.close()
 
