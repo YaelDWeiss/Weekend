@@ -14,6 +14,20 @@ def run():
         return
 
     target_url = os.getenv("TARGET_URL")
+    import re
+
+    def safe_url_info(u: str | None) -> str:
+        if u is None:
+            return "None"
+        # pas l'URL elle-même, juste des infos
+        return f"len={len(u)} startswith_http={u.startswith('http')} has_space={' ' in u} has_newline={'\\n' in u}"
+
+    target_url = os.getenv("TARGET_URL")
+    print("TARGET_URL info:", safe_url_info(target_url))
+
+    if not target_url or not re.match(r"^https?://", target_url.strip()):
+        raise RuntimeError("TARGET_URL missing or invalid (must start with http:// or https://)")
+    target_url = target_url.strip()
     if not target_url:
         raise RuntimeError("Missing TARGET_URL (set it in GitHub Secrets)")
 
