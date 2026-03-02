@@ -1,13 +1,16 @@
-name: run-every-15min
+name: run-every-10min
+
+concurrency:
+  group: run-every-10min
+  cancel-in-progress: true
+
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # every 15 min (UTC)
+    - cron: "*/10 * * * *"   # every 10 min (UTC)
   workflow_dispatch:
 
-concurrency:
-  group: run-every-15min
-  cancel-in-progress: true
+
 
 jobs:
   run:
@@ -26,6 +29,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y tesseract-ocr
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright
 
       - name: Install Python deps
         run: |
