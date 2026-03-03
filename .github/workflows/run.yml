@@ -7,7 +7,7 @@ concurrency:
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # every 10 min (UTC)
+    - cron: "2/10 * * * *"   # every 10 min (UTC)
   workflow_dispatch:
 
 
